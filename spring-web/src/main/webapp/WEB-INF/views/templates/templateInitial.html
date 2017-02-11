@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Baeldung</title>
+
+<!-- Latest compiled and minified CSS -->
+
+<link th:href="@{/static/css/app.css}" rel="stylesheet" />
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+	th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}"
+	rel="stylesheet" />
+<link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css"
+	th:href="@{/webjars/jquery-ui-themes/1.11.4/south-street/jquery-ui.min.css}"
+	rel="stylesheet" />
+
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+	th:href="@{/webjars/toastr/2.1.2/build/toastr.min.css}"
+	rel="stylesheet" />
+
+</head>
+<body>
+	<header>
+		<h1>New dialect example</h1>
+	</header>
+	<div layout:fragment="custom-content">
+		<p>Your page content goes here</p>
+	</div>
+	<footer>
+		<p layout:fragment="custom-footer">footer Template<p>
+		 &copy; <label th:text="#{msg.loging.footer.company}"></label> 2016
+		
+		<div layout:fragment="javascript-fragment">
+			<script type="text/javascript" th:inline="javascript"
+				src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"
+				th:src="@{/webjars/jquery/2.2.4/dist/jquery.min.js}"></script>
+			<script type="text/javascript" th:inline="javascript"
+				src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"
+				th:src="@{/webjars/jquery-ui/1.11.4/jquery-ui.min.js}"></script>
+			<script type="text/javascript" th:inline="javascript"
+				src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+				th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.min.js	}"></script>
+
+			<script type="text/javascript" th:inline="javascript"
+				src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"
+				th:src="@{/webjars/moment/2.14.1/min/moment.min.js}"></script>
+
+			<script type="text/javascript" th:inline="javascript"
+				src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+				th:src="@{/webjars/toastr/2.1.2/build/toastr.min.js}"></script>
+
+			<script type="text/javascript" th:inline="javascript">
+			$(document)
+					.ready(
+							function() {
+								$("#btn1").click(function() {
+									alert("JQuery is working.");
+								});
+
+								$("#btn2")
+										.click(
+												function() {
+													var text = $("#text1").val();
+													var path = /*[[@{/showMessage/}]]*/
+													window.location.href = path + text;	
+												});
+
+								$("#btn3")
+										.click(
+												function() {
+													var text = $("#text2").val();
+													var path = /*[[@{/showMessage?msg=}]]*/;
+													window.location.href = path + text;
+												});
+
+								$("#btn4").click(
+										function() {
+											var testDate = '02/12/2016';
+											var formatString = moment(testDate).format('MM/DD/YYYY');
+											toastr.success('Success messages: '	+ formatString);
+
+											testDate = new Date();
+											var formatString = moment(testDate).format('MM/DD/YYYY');
+											toastr.info('Success messages: '+ formatString);
+										});
+
+							});
+		</script>
+
+		</div>
+	</footer>
+</body>
+</html>

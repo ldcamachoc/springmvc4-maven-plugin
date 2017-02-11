@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{templates/templateInitial}">
+<head>
+<title>Layout Dialect Example</title>
+</head>
+<body>
+	<div layout:fragment="custom-content">
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">Project Name</a>
+				</div>
+			</div>
+		</nav>
+
+		<div class="jumbotron">
+			<div class="container">
+				<h1>
+					<label th:text="#{msg.header.title}"></label>
+				</h1>
+				<p>
+					<label th:if="${#strings.isEmpty(newMsg) == false}"
+						th:inline="text">Hello [[${newMsg}]]</label> <label
+						th:if="${#strings.isEmpty(newMsg)}">"Welcome Welcome!"</label>
+				</p>
+				<p>
+					<a id="btn1" class="btn btn-primary btn-lg" href="#" role="button">JQuery
+						is working</a>
+				</p>
+			</div>
+		</div>
+
+		<div class="container">
+
+			<div class="row">
+				<div class="col-md-4">
+					<h2>Heading</h2>
+					<p>
+						<input id="text1" type="text" />
+					</p>
+					<p>
+						<a id="btn2" class="btn btn-default" href="#" role="button">Spring
+							By Path Variable</a>
+					</p>
+				</div>
+				<div class="col-md-4">
+					<h2>Heading</h2>
+					<p>
+						<input id="text2" type="text" />
+					</p>
+					<p>
+						<a id="btn3" class="btn btn-default" href="#" role="button">Spring
+							By Request Variable</a>
+					</p>
+				</div>
+				<div class="col-md-4">
+					<h2>Heading</h2>
+					<p>ABC</p>
+					<p>
+						<a id="btn4" class="btn btn-default" href="#" role="button">Toastr
+							and moment libraries</a>
+					</p>
+				</div>
+			</div>
+			<hr>
+		</div>		
+	</div>
+	<footer><p layout:fragment="custom-footer">Called<p></footer>
+	
+</body>
+</html>
