@@ -22,7 +22,6 @@ import org.thymeleaf.templatemode.TemplateMode;
 
 @EnableWebMvc
 @Configuration
-@Import(ServiceContext.class)
 @ComponentScan(basePackages = { "com.accenture.web.controller" })
 public class SpringWebContext extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 	private ApplicationContext applicationContext;
