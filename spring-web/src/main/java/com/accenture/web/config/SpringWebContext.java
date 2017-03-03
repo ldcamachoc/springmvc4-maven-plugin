@@ -1,6 +1,10 @@
 package com.accenture.web.config;
 
-import com.accenture.service.config.ServiceContext;
+import com.accenture.model.Book;
+import com.accenture.web.resolver.ExcelViewResolver;
+import com.accenture.web.resolver.JsonViewResolver;
+import com.accenture.web.resolver.PDFViewResolver;
+import com.accenture.web.resolver.Jaxb2MarshallingXmlViewResolver;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import nz.net.ultraq.thymeleaf.decorators.strategies.GroupingStrategy;
 import org.springframework.beans.BeansException;
@@ -10,15 +14,20 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.http.MediaType;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.web.accept.ContentNegotiationManager;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @EnableWebMvc
 @Configuration
@@ -78,12 +87,66 @@ public class SpringWebContext extends WebMvcConfigurerAdapter implements Applica
 	}
 	
 	@Bean
-	public ThymeleafViewResolver viewResolver(){
+	public ThymeleafViewResolver thymeleafViewResolver(){
 	    ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
 	    viewResolver.setTemplateEngine(templateEngine());
 	    viewResolver.setCharacterEncoding("UTF-8");	
 	    return viewResolver;
 	}
+
+
+	@Override
+	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+		configurer
+				.defaultContentType(MediaType.TEXT_HTML)
+				.parameterName("type")
+				.favorParameter(true)
+				.ignoreUnknownPathExtensions(false)
+				.ignoreAcceptHeader(false)
+				.useJaf(true);
+	}
+
+    @Bean
+    public ViewResolver xmlViewResolver() {
+       return new Jaxb2MarshallingXmlViewResolver();
+    }
+
+    @Bean
+    public ViewResolver jsonViewResolver() {
+		return new JsonViewResolver();
+    }
+
+    @Bean
+    public ViewResolver pdfViewResolver() {
+		return new PDFViewResolver();
+    }
+    @Bean
+    public ViewResolver xlsViewResolver(){
+
+		return new ExcelViewResolver();
+	}
+
+    /*
+     * Configure ContentNegotiatingViewResolver
+     */
+    @Bean
+    public ViewResolver contentNegotiatingViewResolver(ContentNegotiationManager manager) {
+        ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
+        resolver.setContentNegotiationManager(manager);
+
+        // Define all possible view resolvers
+        List<ViewResolver> resolvers = new ArrayList<ViewResolver>();
+
+        resolvers.add(xmlViewResolver());
+        resolvers.add(jsonViewResolver());
+        resolvers.add(pdfViewResolver());
+        resolvers.add(xlsViewResolver());
+        resolvers.add(thymeleafViewResolver());
+
+        resolver.setViewResolvers(resolvers);
+        return resolver;
+    }
+
 
 
 	@Override

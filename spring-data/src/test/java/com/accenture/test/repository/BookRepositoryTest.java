@@ -15,7 +15,7 @@ public class BookRepositoryTest extends PersistenceContextTest{
     @Test
     public void findByAll(){
         List<Book> books = bookRepository.findAll();
-        Assert.assertTrue(books.size() == 3);
+        Assert.assertTrue(books.size() == 4);
     }
 
     @Test
