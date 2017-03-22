@@ -32,15 +32,9 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
         </dependency>
 
         <dependency>
@@ -49,8 +43,14 @@
         </dependency>
 
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${dbGroupId}</groupId>
+            <artifactId>${dbArtifactId}</artifactId>
+            <version>${dbVersionId}</version>
         </dependency>
 
         <dependency>
@@ -63,5 +63,56 @@
             <artifactId>junit</artifactId>
         </dependency>
 
+        <!-- SLF4 dependencies -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.accenture</groupId>
+                <artifactId>plugin-profiles</artifactId>
+                <version>${project.parent.version}</version>
+                <executions>
+                    <execution>
+                        <id>copySpringProperties</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-spring-profile-properties-goal</goal>
+                        </goals>
+                        <configuration>
+                            <springProfile>${spring.profile}</springProfile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>deleteProfileFiles</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>delete-profile-files-goal</goal>
+                        </goals>
+                        <configuration>
+                           <deleteProperties>true</deleteProperties>
+                        </configuration>
+                    </execution>
+                </executions>
+
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
