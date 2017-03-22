@@ -2,27 +2,27 @@
 
 It was created a plugin-profiles maven plugin to copy dependencies after process-resources phase
 
-spring-data/src/main/resources/dev/application.properties
-spring-data/src/main/resources/test/application.properties
+- spring-data/src/main/resources/dev/application.properties
+- spring-data/src/main/resources/test/application.properties
 
 and will override
 
-spring-data/src/main/resources/application.properties
+- spring-data/src/main/resources/application.properties
 
 
 In prepare-package phase will delete the following directories and files:
 
-spring-data/src/main/resources/dev/
-spring-data/src/main/resources/test/
-spring-data/src/main/resources/dev/application.properties
-spring-data/src/main/resources/test/application.properties
+- spring-data/src/main/resources/dev/
+- spring-data/src/main/resources/test/
+- spring-data/src/main/resources/dev/application.properties
+- spring-data/src/main/resources/test/application.properties
 
 # Maven profiles
 
 There are two profiles in maven:
 
--test: hsqldb
--dev : mysqldb
+- test: hsqldb
+- dev : mysqldb
 
 These profiles cause to take diferents dependencies for database for test and dev.
 
